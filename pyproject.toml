@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "auth-project"
+version = "0.1.0"
+description = ""
+authors = ["gfedorov911 <fedorov22134@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.111.1"
+pydantic = {extras = ["email"], version = "^2.8.2"}
+pydantic-settings = "^2.3.4"
+uvicorn = {extras = ["standard"], version = "^0.30.1"}
+alembic = "^1.13.2"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.31"}
+aiosqlite = "^0.20.0"
+email-validator = "^2.2.0"
+pyjwt = {extras = ["crypto"], version = "^2.8.0"}
+bcrypt = "^4.1.3"
+python-multipart = "^0.0.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
