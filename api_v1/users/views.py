@@ -18,6 +18,22 @@ router = APIRouter(prefix="/users", tags=["Users"])
 # oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login/")
 http_bearer = HTTPBearer()
 
+async def get_users_payload(
+    # token: str = Depends(oauth2_scheme)
+    cred: HTTPAuthorizationCredentials= Depends(http_bearer)
+):
+
+    token = cred.credentials
+    try:
+        payload = decode_jwt(token)
+    except InvalidTokenError as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="time token"
+        )
+
+    return payload
+
 @router.post("/sign_up/")
 async def create_user(user: UserCreate, session: AsyncSession = Depends(db_helper.session_dependency)):
     return await crud.create_user(user=user, session=session)
@@ -42,24 +58,6 @@ async def auth_user(user: UserLogin, session: AsyncSession = Depends(db_helper.s
         access_token=token,
         token_type="Bearer"
     )
-
-
-async def get_users_payload(
-    # token: str = Depends(oauth2_scheme)
-    cred: HTTPAuthorizationCredentials= Depends(http_bearer)
-):
-
-    token = cred.credentials
-    try:
-        payload = decode_jwt(token)
-    except InvalidTokenError as e:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="time token"
-        )
-
-    return payload
-
 
 @router.get('/me/')
 async def auth_user_info(

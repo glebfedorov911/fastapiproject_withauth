@@ -60,3 +60,4 @@ async def validate_user(
         )
     
     return user
+
